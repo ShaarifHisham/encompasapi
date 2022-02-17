@@ -12,6 +12,8 @@
             <param name="start"></param>
             <param name="limit"></param>
             <returns>list of business contacts</returns>
+            <response code="200">Successfully retrieved liens for a loan.</response>
+            <response code="401">Access token is missing or invalid.</response>
         </member>
         <member name="M:Brimma.LOSService.Controllers.LoanController.GetLoan(System.String,System.String)">
             <summary>

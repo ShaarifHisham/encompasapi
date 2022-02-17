@@ -30,7 +30,6 @@ namespace Brimma.LOSService.Controllers
         /// <param name="limit"></param>
         /// <returns>list of business contacts</returns>
         /// <response code="200">Successfully retrieved liens for a loan.</response>
-        /// <response code="404">No loan found for given loanId.</response>
         /// <response code="401">Access token is missing or invalid.</response>
         [HttpPost]
         [Produces("application/json")]
@@ -38,16 +37,10 @@ namespace Brimma.LOSService.Controllers
         [MiddlewareFilter(typeof(CustomAuthorizationPipeline))]
         [ProducesResponseType(typeof(HashSet<BusinessContactResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<Object> GetContactList([FromBody] Object businessContactRequest,
                                                  [FromQuery] int start,[FromQuery] int limit)
         {
-            var contactList = await businessContactService.GetBusinessContacts(businessContactRequest,start,limit).ConfigureAwait(false);
-            if (contactList == null)
-            {
-                return this.NotFound("No Contacts found.");
-            }
-            return contactList;
+            return await businessContactService.GetBusinessContacts(businessContactRequest,start,limit).ConfigureAwait(false);
         }
     }
 }

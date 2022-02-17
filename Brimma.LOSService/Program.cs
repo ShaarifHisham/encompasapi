@@ -1,8 +1,10 @@
 ﻿using Brimma.LOSService.Common;
 using Brimma.LOSService.Config;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
 
@@ -17,7 +19,7 @@ namespace Brimma.LOSService
             try
             {
                 logger.Debug("init main");
-                CreateHostBuilder(args).Build().Run();
+                CreateWebHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
@@ -32,43 +34,14 @@ namespace Brimma.LOSService
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, config) =>
-                {
-                    var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-                    var builtConfig = config.Build();
-                    logger.Error("EDS Service - Program File - Azure Key Vault Information Log - URL: {0}", builtConfig["AzureKeyVault:AccountEndpoint"]);
-                    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    try
-                    {
-                        if (environment == "Development")
-                        {
-                            config.AddAzureKeyVault(builtConfig["AzureKeyVault:AccountEndpoint"], builtConfig["AzureKeyVault:ClientId"],
-                            builtConfig["AzureKeyVault:ClientSecret"]);
-                        }
-                        else
-                        {
-                            config.AddAzureKeyVault(builtConfig["AzureKeyVault:AccountEndpoint"]);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        //NLog: catch setup errors
-                        logger.Error(ex, "Error Occurred at EDS Service - Exception Thrown in Program.CS file while adding Azure KeyVault");
-                        throw;
-                    }
-
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.ConfigureKestrel(options =>
-                    {
-                        options.Limits.MaxRequestBodySize = null;
-                        options.Limits.MaxRequestBufferSize = null;
-                    })
-                    .UseStartup<Startup>();
-                });
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.SetMinimumLevel(LogLevel.Information);
+            })
+            .UseNLog();
     }
-
 }
