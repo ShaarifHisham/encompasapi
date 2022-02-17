@@ -26,10 +26,10 @@ namespace Brimma.LOSService.Controllers
         /// Retrives list of Business contacts
         /// </summary>
         /// <param name="businessContactRequest">Business contacts fields</param>
-        /// <param name="start"></param>
-        /// <param name="limit"></param>
+        /// <param name="start">Start index</param>
+        /// <param name="limit">Maximum records</param>
         /// <returns>list of business contacts</returns>
-        /// <response code="200">Successfully retrieved liens for a loan.</response>
+        /// <response code="200">Successfully retrieved Business Contacts.</response>
         /// <response code="401">Access token is missing or invalid.</response>
         [HttpPost]
         [Produces("application/json")]
