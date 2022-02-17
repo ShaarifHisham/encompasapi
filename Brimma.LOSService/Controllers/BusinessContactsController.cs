@@ -26,10 +26,10 @@ namespace Brimma.LOSService.Controllers
         /// Retrives list of Business contacts
         /// </summary>
         /// <param name="businessContactRequest">Business contacts fields</param>
-        /// <param name="start"></param>
-        /// <param name="limit"></param>
+        /// <param name="start">Start index</param>
+        /// <param name="limit">Maximum records</param>
         /// <returns>list of business contacts</returns>
-        /// <response code="200">Successfully retrieved liens for a loan.</response>
+        /// <response code="200">Successfully retrieved Business Contacts.</response>
         /// <response code="401">Access token is missing or invalid.</response>
         [HttpPost]
         [Produces("application/json")]
@@ -41,6 +41,27 @@ namespace Brimma.LOSService.Controllers
                                                  [FromQuery] int start,[FromQuery] int limit)
         {
             return await businessContactService.GetBusinessContacts(businessContactRequest,start,limit).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Updates contact information for the specified contact ID.
+        /// </summary>
+        /// <param name="contactId">The unique identifier assigned to the business contacts</param>
+        /// <param name="request">Business contact update request.</param>
+        /// <response code="204">Successfully updated business contact.</response>
+        /// <response code="401">Access token is missing or invalid.</response>
+        /// <response code="400">Request has invalid values</response>
+        [HttpPatch("{contactId}")]
+        [Produces("application/json")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [MiddlewareFilter(typeof(CustomAuthorizationPipeline))]
+        [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<Object> UpdateContact([FromRoute][Required] string contactId, 
+                                                [FromBody][Required] BusinessContactUpdateRequest request)
+        {
+            return await businessContactService.UpdateContact(contactId, request).ConfigureAwait(false);
         }
     }
 }

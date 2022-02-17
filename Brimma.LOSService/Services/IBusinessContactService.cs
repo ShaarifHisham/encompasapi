@@ -16,5 +16,12 @@ namespace Brimma.LOSService.Services
         /// <param name="limit">Maximum Records</param>
         /// <returns>List of Business Contacts</returns>
         Task<Object> GetBusinessContacts(Object request, int start, int limit);
+
+        /// <summary>
+        /// Updates contact information for the specified contact ID
+        /// </summary>
+        /// <param name="contactId">Contact Id</param>
+        /// <param name="request">BusinessContactUpdateRequest</param>
+        Task<Object> UpdateContact(string contactId, BusinessContactUpdateRequest request);
     }
 }

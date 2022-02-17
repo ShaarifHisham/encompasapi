@@ -51,5 +51,33 @@ namespace Brimma.LOSService.Services
             }
             return response;
         }
+        public async Task<Object> UpdateContact(string contactId, BusinessContactUpdateRequest request)
+        {
+            Object response = new Object();
+            string apiURL = string.Empty;
+
+            try
+            {
+                if (request != null)
+                {
+                    apiURL = string.Format(encompassAPIs.UpdateBusinessContact, contactId);
+                }
+                ApiResponse<Object> apiResponse = await httpService.PatchAsync<Object>(apiURL, request).ConfigureAwait(false);
+                if (apiResponse.Success)
+                {
+                    return NoContent();
+                }
+                else if (apiResponse.ErrorResponse != null && apiResponse.ErrorResponse.Error != null)
+                {
+                    logger.LogError(apiResponse.ErrorResponse.Error.Message);
+                    return StatusCode(apiResponse.ErrorResponse.Error.Code, apiResponse.ErrorResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(string.Format("Error Occued at UpdateContact. Error Message= {0}; Stack Trace={1}", ex.Message, ex.StackTrace));
+            }
+            return response;
+        }
     }
 }

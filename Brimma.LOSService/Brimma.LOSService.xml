@@ -9,11 +9,21 @@
             Retrives list of Business contacts
             </summary>
             <param name="businessContactRequest">Business contacts fields</param>
-            <param name="start"></param>
-            <param name="limit"></param>
+            <param name="start">Start index</param>
+            <param name="limit">Maximum records</param>
             <returns>list of business contacts</returns>
-            <response code="200">Successfully retrieved liens for a loan.</response>
+            <response code="200">Successfully retrieved Business Contacts.</response>
             <response code="401">Access token is missing or invalid.</response>
+        </member>
+        <member name="M:Brimma.LOSService.Controllers.BusinessContactsController.UpdateContact(System.String,Brimma.LOSService.DTO.BusinessContactUpdateRequest)">
+            <summary>
+            Updates contact information for the specified contact ID.
+            </summary>
+            <param name="contactId">The unique identifier assigned to the business contacts</param>
+            <param name="request">Business contact update request.</param>
+            <response code="204">Successfully updated business contact.</response>
+            <response code="401">Access token is missing or invalid.</response>
+            <response code="400">Request has invalid values</response>
         </member>
         <member name="M:Brimma.LOSService.Controllers.LoanController.GetLoan(System.String,System.String)">
             <summary>
@@ -113,6 +123,13 @@
             <param name="start">Start Index</param>
             <param name="limit">Maximum Records</param>
             <returns>List of Business Contacts</returns>
+        </member>
+        <member name="M:Brimma.LOSService.Services.IBusinessContactService.UpdateContact(System.String,Brimma.LOSService.DTO.BusinessContactUpdateRequest)">
+            <summary>
+            Updates contact information for the specified contact ID
+            </summary>
+            <param name="contactId">Contact Id</param>
+            <param name="request">BusinessContactUpdateRequest</param>
         </member>
         <member name="M:Brimma.LOSService.Services.IHttpService.GetAsync``1(System.String,System.Boolean,System.Boolean)">
             <summary>

@@ -3,8 +3,6 @@ using Brimma.LOSService.Config;
 using Brimma.LOSService.DTO;
 using Brimma.LOSService.Extensions;
 using Brimma.LOSService.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
