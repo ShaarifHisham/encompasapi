@@ -7,6 +7,7 @@ namespace Brimma.LOSService.DTO
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Required]
         public BusinessContactCurrentMailingAddress CurrentMailingAddress { get; set; }
         public string JobTitle { get; set; }
         public string WorkPhone { get; set; }

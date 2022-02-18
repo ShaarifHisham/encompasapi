@@ -51,6 +51,7 @@ namespace Brimma.LOSService.Services
             }
             return response;
         }
+
         public async Task<Object> UpdateContact(string contactId, BusinessContactUpdateRequest request)
         {
             Object response = new Object();
@@ -62,7 +63,7 @@ namespace Brimma.LOSService.Services
                 {
                     apiURL = string.Format(encompassAPIs.UpdateBusinessContact, contactId);
                 }
-                ApiResponse<Object> apiResponse = await httpService.PatchAsync<Object>(apiURL, request).ConfigureAwait(false);
+                ApiResponse<BusinessContactUpdateRequest> apiResponse = await httpService.PatchAsync<BusinessContactUpdateRequest>(apiURL, request).ConfigureAwait(false);
                 if (apiResponse.Success)
                 {
                     return NoContent();
