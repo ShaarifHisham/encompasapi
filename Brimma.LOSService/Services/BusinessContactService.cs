@@ -15,12 +15,14 @@ namespace Brimma.LOSService.Services
         private readonly IHttpService httpService;
         private readonly EncompassAPIs encompassAPIs;
         private readonly ILogger<BusinessContactService> logger;
+
         public BusinessContactService(IHttpService httpService, IOptions<EncompassAPIs> config, ILogger<BusinessContactService> logger)
         {
             this.httpService = httpService;
             encompassAPIs = config.Value;
             this.logger = logger;
         }
+
         public async Task<Object> GetBusinessContacts(Object request, int start, int limit)
         {
             Object response = new Object();
@@ -63,7 +65,7 @@ namespace Brimma.LOSService.Services
                 {
                     apiURL = string.Format(encompassAPIs.UpdateBusinessContact, contactId);
                 }
-                ApiResponse<BusinessContactUpdateRequest> apiResponse = await httpService.PatchAsync<BusinessContactUpdateRequest>(apiURL, request).ConfigureAwait(false);
+                ApiResponse<Object> apiResponse = await httpService.PatchAsync<Object>(apiURL, request).ConfigureAwait(false);
                 if (apiResponse.Success)
                 {
                     return NoContent();
